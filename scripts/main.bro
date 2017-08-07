@@ -1,4 +1,4 @@
-##! Script for detecting DNS Tunnels attack
+#! Script for detecting DNS Tunnels attack
 
 @load base/frameworks/notice
 
@@ -35,7 +35,7 @@ export {
 
 }
 
-## Map client ip to query count
+# Map client ip to query count
 global cq_table: table[addr] of count &read_expire = record_expiration;
 
 event DNS_TUNNELS::dns_request(c:connection, msg: dns_msg, query: string, qtype: count, qclass: count)
@@ -62,19 +62,19 @@ event DNS_TUNNELS::dns_request(c:connection, msg: dns_msg, query: string, qtype:
         {
             cq_table[src_ip] += 1;
 
-            ## If the length of the query is bgiger than the threshold, 
-            ## we consider this is a suspicious packet and do the DPI.
+            # If the length of the query is bgiger than the threshold, 
+            # we consider this is a suspicious packet and do the DPI.
             local num_string = "0123456789";
             local num_count = 0;
             if(query_len > query_len_threshold)
             {
                 for (i in query)
                 {
-                    ## Calculate numeral count 
+                    # Calculate numeral count 
                     if (i in num_string)
                         num_count += 1;
                 }
-                ## The operator "/" will drop the fractional part, so we time 10
+                # The operator "/" will drop the fractional part, so we time 10
                 if(num_count*10 / query_len > percentage_of_num_count)
                 {
                     NOTICE([$note = OvermuchNumber,
