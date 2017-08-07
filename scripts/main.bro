@@ -1,4 +1,4 @@
-#! Script for detecting DNS Tunnels attack
+# Script for detecting DNS Tunnels attack
 
 @load base/frameworks/notice
 
